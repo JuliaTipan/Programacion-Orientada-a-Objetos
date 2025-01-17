@@ -39,7 +39,7 @@ class Profesor(Persona):
             print(f"Profesor: {self.get_nombre()}")
 
 # Crear instancias de las clases y demostrar su funcionalidad
-persona1 = Persona("Jona", 28)
+persona1 = Persona("Javier", 28)
 estudiante1 = Estudiante("Carlos", 23, "Ingeniería")
 profesor1 = Profesor("Ing. Vargas", 44, "Física")
 
