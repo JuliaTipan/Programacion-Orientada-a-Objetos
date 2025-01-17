@@ -40,7 +40,7 @@ class Profesor(Persona):
 
 # Crear instancias de las clases y demostrar su funcionalidad
 persona1 = Persona("Javier", 28)
-estudiante1 = Estudiante("Carlos", 23, "Ingeniería")
+estudiante1 = Estudiante("Carlos", 21, "Ingeniería")
 profesor1 = Profesor("Ing. Vargas", 44, "Física")
 
 # Uso de los métodos para mostrar información de los objetos
