@@ -16,7 +16,7 @@ class Libro:
 # Programa principal
 if __name__ == "__main__":
     # Crear una instancia de la clase Libro
-    mi_libro = Libro("Crimen y castigo", "Fiódor Dostoyesvki")
+    mi_libro = Libro("Crimen y Castigo", "Fiódor Dostoyesvki")
     # Llamar a un metodo de la clase
     mi_libro.mostrar_informacion()
     # Eliminar explícitamente el objeto
