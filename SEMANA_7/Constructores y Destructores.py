@@ -23,4 +23,3 @@ if __name__ == "__main__":
     del mi_libro
 
     print("Fin del programa.")
-
