@@ -1,1 +1,6 @@
-
+1,Shampoo,10,3.5
+2,Jabón,5,1.2
+3,Crema Dental,10,2.2
+4,Cepillo de Dientes,12,2.5
+6,Loción,4,8.0
+7,Toallitas Húmedas,15,3.0
