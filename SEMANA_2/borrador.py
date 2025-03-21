@@ -1,44 +1,74 @@
-# Código 3
-import threading  # Importamos el módulo threading para trabajar con hilos
-import time  # Importamos el módulo time para usar funciones relacionadas con el tiempo
+import tkinter as tk
 
-# Creamos un objeto evento
-evento = threading.Event()  # Este objeto se utilizará para la sincronización entre hilos
+def agregar_caracter(caracter):
+    entrada.insert(tk.END, caracter)
 
-# Función que espera a que se active el evento
-def esperar_evento():
-    print("Esperando al evento...")  # Mensaje que indica que el hilo está esperando
-    # Esperamos a que el evento se active
-    evento.wait()  # El hilo se bloquea aquí hasta que el evento sea activado
-    print("El evento ha sido activado!")  # Mensaje que indica que el evento ha sido activado
-    # Función esperar_evento:
-    # - Imprime un mensaje indicando que está esperando el evento.
-    # - Llama a evento.wait(), lo que hace que el hilo se bloquee hasta que el evento sea activado por otro hilo.
+def calcular(*args):
+    try:
+        expresion = entrada.get()
+        resultado = eval(expresion)
+        entrada.delete(0, tk.END)
+        entrada.insert(tk.END, str(resultado))
+        log.config(text=f"Operación: {expresion}, Resultado: {resultado}")
+    except Exception as e:
+        entrada.delete(0, tk.END)
+        entrada.insert(tk.END, "Error")
+        log.config(text="Error")
 
-# Función que activa el evento después de un cierto tiempo
-def activar_evento():
-    print("Esperando 5 segundos antes de activar el evento...")  # Mensaje que indica que se está esperando
-    time.sleep(5)  # Pausa la ejecución durante 5 segundos
-    # Activamos el evento
-    evento.set()  # Esto activa el evento, permitiendo que los hilos que están esperando continúen
-    print("El evento ha sido activado después de 5 segundos")  # Mensaje que indica que el evento ha sido activado
-    # Función activar_evento:
-    # - Imprime un mensaje indicando que esperará 5 segundos antes de activar el evento.
-    # - Utiliza time.sleep(5) para pausar la ejecución durante 5 segundos.
-    # - Luego, llama a evento.set(), que activa el evento y permite que cualquier hilo que esté esperando en evento.wait() continúe su ejecución.
+def limpiar():
+    entrada.delete(0, tk.END)
+    log.config(text="")
 
-# Creamos dos hilos que ejecutarán las funciones
-hilo1 = threading.Thread(target=esperar_evento)  # Hilo que espera el evento
-hilo2 = threading.Thread(target=activar_evento)  # Hilo que activa el evento
+def salir():
+    ventana.quit()
 
-# Iniciamos los hilos
-hilo1.start()  # Comenzamos la ejecución del hilo que espera el evento
-hilo2.start()  # Comenzamos la ejecución del hilo que activa el evento
+# Crear la ventana principal
+ventana = tk.Tk()
+ventana.title("Calculadora")
+ventana.geometry("300x300")
 
-# Esperamos a que ambos hilos terminen
-hilo1.join()  # Esperamos a que el hilo que espera el evento termine
-hilo2.join()  # Esperamos a que el hilo que activa el evento termine
-# Esperar a que Terminen: Se utiliza join() para esperar a que ambos hilos terminen su ejecución antes de continuar con el programa principal.
+# Centrar la ventana en la pantalla
+ancho_ventana = ventana.winfo_reqwidth()
+alto_ventana = ventana.winfo_reqheight()
+posicion_derecha = int(ventana.winfo_screenwidth() / 2 - ancho_ventana / 2)
+posicion_abajo = int(ventana.winfo_screenheight() / 2 - alto_ventana / 2)
+ventana.geometry("+{}+{}".format(posicion_derecha, posicion_abajo))
 
-print("Programa terminado")  # Mensaje que indica que el programa ha finalizado
-# Impresión del Resultado: Finalmente, se imprime un mensaje indicando que el programa ha terminado.
+# Crear un menú
+barra_menu = tk.Menu(ventana)
+ventana.config(menu=barra_menu)
+
+menu_archivo = tk.Menu(barra_menu)
+barra_menu.add_cascade(label="Archivo", menu=menu_archivo)
+menu_archivo.add_command(label="Limpiar", command=limpiar)
+menu_archivo.add_separator()
+menu_archivo.add_command(label="Salir", command=salir)
+
+# Crear un campo de entrada
+entrada = tk.Entry(ventana, font=("Arial", 18), justify="right")
+entrada.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+entrada.bind("<Return>", calcular)
+entrada.bind("<Escape>", lambda event: limpiar())
+
+# Crear un label para visualizar las operaciones en formato de log
+log = tk.Label(ventana, text="", font=("Arial", 12))
+log.grid(row=1, column=0, columnspan=4, padx=10, pady=5)
+
+# Crear los botones de los números
+numeros = "7894561230"
+for i, num in enumerate(numeros):
+    tk.Button(ventana, text=num, font=("Arial", 14), command=lambda num=num: agregar_caracter(num)).grid(row=(i//3)+2, column=(i%3), padx=5, pady=5)
+
+# Botón para el punto decimal
+tk.Button(ventana, text=".", font=("Arial", 14), command=lambda: agregar_caracter(".")).grid(row=5, column=1, padx=5, pady=5)
+
+# Botón para el cálculo
+tk.Button(ventana, text="=", font=("Arial", 14), command=calcular).grid(row=5, column=0, columnspan=2, padx=5, pady=5)
+
+# Crear los botones de las operaciones
+operadores = ["+", "-", "*", "/"]
+for i, operador in enumerate(operadores):
+    tk.Button(ventana, text=operador, font=("Arial", 14), command=lambda op=operador: agregar_caracter(op)).grid(row=i+2, column=3, padx=5, pady=5)
+
+# Ejecutar el bucle de eventos
+ventana.mainloop()
