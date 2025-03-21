@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from tkcalendar import DateEntry  # Asegúrate de instalar tkcalendar con 'pip install tkcalendar'
+from tkcalendar import DateEntry  # Asegurar la instalación tkcalendar con 'pip install tkcalendar'
 
 # Crear la ventana principal
 root = tk.Tk()
