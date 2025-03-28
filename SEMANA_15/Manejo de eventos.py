@@ -20,7 +20,7 @@ def marcar_completada():
 
 def eliminar_tarea():
     try:
-        index = lista_tareas.curselection()[0]  # Obtiene el índice de la tarea seleccionada
+        index = lista_tareas.curselection()[0]  # Obtiene el indice de la tarea seleccionada
         lista_tareas.delete(index)  # Elimina la tarea
     except IndexError:
         messagebox.showwarning("Advertencia", "Selecciona una tarea para eliminar.")
